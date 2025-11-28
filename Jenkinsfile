@@ -16,9 +16,9 @@ pipeline {
         stage('Sync Code to Deploy Folder') {
             steps {
                 sh """
-                    rm -rf ${DEPLOY_PATH}
-                    mkdir -p ${DEPLOY_PATH}
-                    cp -r * ${DEPLOY_PATH}/
+                    sudo rm -rf ${DEPLOY_PATH}
+                    sudo mkdir -p ${DEPLOY_PATH}
+                    sudo cp -r * ${DEPLOY_PATH}/
                 """
             }
         }
@@ -27,7 +27,7 @@ pipeline {
             steps {
                 sh """
                     cd ${DEPLOY_PATH}
-                    docker build -t ${IMAGE_NAME} .
+                    sudo docker build -t ${IMAGE_NAME} .
                 """
             }
         }
@@ -35,8 +35,8 @@ pipeline {
         stage('Stop Old Container') {
             steps {
                 sh """
-                    docker stop ${CONTAINER_NAME} || true
-                    docker rm ${CONTAINER_NAME} || true
+                    sudo docker stop ${CONTAINER_NAME} || true
+                    sudo docker rm ${CONTAINER_NAME} || true
                 """
             }
         }
@@ -44,7 +44,7 @@ pipeline {
         stage('Deploy New Container') {
             steps {
                 sh """
-                    docker run -d --name ${CONTAINER_NAME} -p 9000:5000 ${IMAGE_NAME}
+                    sudo docker run -d --name ${CONTAINER_NAME} -p 9000:5000 ${IMAGE_NAME}
                 """
             }
         }
