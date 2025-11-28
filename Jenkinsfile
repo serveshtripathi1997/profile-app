@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    triggers {
+        githubPush()     // <--- THIS ENABLES GITHUB WEBHOOKS
+    }
+
     environment {
         REPO_URL = "https://github.com/serveshtripathi1997/profile-app.git"
         DEPLOY_PATH = "/home/serveshtripathi/profile-app"
@@ -57,7 +61,7 @@ pipeline {
 
     post {
         success {
-            echo "🚀 Deployment successful → http://your-server-ip:9000/"
+            echo "🚀 Deployment successful → http://localhost:9000/"
         }
         failure {
             echo "❌ Deployment failed."
