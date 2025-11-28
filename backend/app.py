@@ -7,7 +7,7 @@ app = Flask(__name__, static_folder="frontend", static_url_path="")
 def profile():
     return jsonify({
         "name": "SERVESH",
-        "role": "Adobe Commerce Cloud | DevOps | SRE Engineer",
+        "role": "Commerce Cloud | DevOps | SRE Engineer",
         "primary": [
             "Azure", "AWS", "Adobe Commerce Cloud",
             "Linux", "Docker", "Jenkins", "Windows Server"
