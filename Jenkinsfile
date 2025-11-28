@@ -2,25 +2,16 @@ pipeline {
     agent any
 
     triggers {
-        githubPush()     // <--- THIS ENABLES GITHUB WEBHOOKS
+        githubPush()
     }
 
     environment {
-        REPO_URL = "https://github.com/serveshtripathi1997/profile-app.git"
         DEPLOY_PATH = "/home/serveshtripathi/profile-app"
         IMAGE_NAME = "profile-app:latest"
         CONTAINER_NAME = "profile-app"
     }
 
     stages {
-
-        stage('Clone Repository') {
-            steps {
-                git url: "${REPO_URL}",
-                    branch: 'main',
-                    credentialsId: 'github-creds'
-            }
-        }
 
         stage('Sync Code to Deploy Folder') {
             steps {
