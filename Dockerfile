@@ -1,40 +1,19 @@
-# Stage 1: Prepare backend package dependencies
-FROM python:3.11-alpine AS builder
+FROM python:3.10-slim
 
 WORKDIR /app
 
-# Install build dependencies
-RUN apk add --no-cache --virtual .build-deps \
-    gcc \
-    musl-dev \
-    python3-dev
-
-# Copy requirements
-COPY backend/requirements.txt .
-
-# Install Python dependencies into /install
-RUN pip install --prefix=/install -r requirements.txt
-
-# Copy backend code
-COPY backend/ .
-
-# ------------------------------
-# Stage 2: Final Runtime Image
-# ------------------------------
-FROM python:3.11-alpine
-
-WORKDIR /app
-
-# Copy installed Python packages from builder
-COPY --from=builder /install /usr/local
-
-# Copy backend code
-COPY backend/ .
+# Copy backend
+COPY backend ./backend
 
 # Copy frontend
-COPY frontend/ /app/frontend/
+COPY frontend ./frontend
 
-EXPOSE 5000
+# Install dependencies
+COPY backend/requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
 
-CMD ["gunicorn", "-b", "0.0.0.0:5000", "app:app"]
+# Expose port
+EXPOSE 9000
 
+# Run server
+CMD ["python", "backend/app.py"]
