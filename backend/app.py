@@ -1,21 +1,15 @@
 from flask import Flask, send_from_directory, jsonify
 import os
 
-# Backend directory = /Python/backend
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-
-# Frontend directory = /Python/frontend
 FRONTEND_FOLDER = os.path.join(BASE_DIR, "..", "frontend")
-
-# Media directory = /Python/backend/Media
 MEDIA_FOLDER = os.path.join(BASE_DIR, "Media")
 
-app = Flask(
-    __name__,
-    static_folder=FRONTEND_FOLDER,     # Serve CSS/JS
-    static_url_path=""
-)
+print("BASE_DIR:", BASE_DIR)
+print("FRONTEND_FOLDER:", FRONTEND_FOLDER)
+print("MEDIA_FOLDER:", MEDIA_FOLDER)
 
+app = Flask(__name__, static_folder=FRONTEND_FOLDER, static_url_path="")
 
 # ------------ API ------------
 @app.route("/profile")
