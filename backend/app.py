@@ -23,4 +23,4 @@ def media_files(filename):
 def home():
     return send_from_directory(FRONTEND, "index.html")
 
-app.run(host="0.0.0.0", port=9000)
+app.run(host="0.0.0.0", port=5000, debug=True)
