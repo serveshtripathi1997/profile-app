@@ -1,28 +1,27 @@
 from flask import Flask, jsonify, send_from_directory
+import os
 
-app = Flask(__name__, static_folder="frontend", static_url_path="")
+app = Flask(__name__, static_folder="../frontend", static_url_path="")
 
-# --------- API ENDPOINT ---------
+# ---------- API ----------
 @app.route("/profile")
 def profile():
     return jsonify({
-        "name": "SERVESH",
-        "role": "Commerce Cloud | DevOps | SRE Engineer",
-        "primary": [
-            "Azure", "AWS", "Adobe Commerce Cloud",
-            "Linux", "Docker", "Jenkins", "Windows Server"
-        ],
-        "secondary": ["Terraform"],
-        "tertiary": [
-            "CI/CD Pipelines",
-            "Monitoring (New Relic)",
-            "Container Security",
-            "Cloud Optimization"
-        ]
+        "brand": "DEPT APPAREL",
+        "tagline": "Worldwide Collections",
+        "release_date": "01.12.2025"
     })
 
-# --------- FRONTEND ROOT ROUTE ---------
-@app.route("/")
-def serve_home():
-    return send_from_directory("frontend", "index.html")
+# ---------- SERVE IMAGES ----------
+@app.route('/media/<path:filename>')
+def media(filename):
+    media_folder = os.path.join(os.getcwd(), "Media")
+    return send_from_directory(media_folder, filename)
 
+# ---------- SERVE FRONTEND ----------
+@app.route("/")
+def home():
+    return send_from_directory("../frontend", "index.html")
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=9000, debug=True)
